@@ -1,9 +1,16 @@
-body {
-    text-align: center;
+p, header {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
 }
 
-#trasa {
-    text-align: left;
+header {
+    text-align: center;
+    background-color: burlywood;
+}
+
+table {
+    text-align: center;
     border-collapse: collapse;
 }
 
