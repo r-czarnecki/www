@@ -61,3 +61,30 @@ img {
     margin-left: auto;
     margin-right: auto;
 }
+
+#zdjecie {
+	width: 200px;
+	height: 130px;
+}
+
+#nagłówek {
+    background-color: burlywood;
+    font-weight: bold;
+}
+
+.info {
+    text-align: left;
+    font-weight: bold;
+    margin-left: 0px;
+}
+
+ul, li {
+    text-align: left;
+}
+
+#powrót {
+    width: 100px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: burlywood;
+}
