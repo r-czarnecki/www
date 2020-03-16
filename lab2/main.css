@@ -17,6 +17,10 @@ table {
     text-align: left;
 }
 
+table, th, td {
+    border: 1px solid black;
+}
+
 #pierwszy {
     background-color: chartreuse;
 }
@@ -64,7 +68,7 @@ img {
     margin-right: auto;
 }
 
-#zdjecie {
+.zdjecie {
 	width: 200px;
 	height: 130px;
 }
@@ -78,6 +82,7 @@ img {
     text-align: left;
     font-weight: bold;
     margin-left: 0px;
+    font-size: large;
 }
 
 ul, li {
@@ -89,4 +94,6 @@ ul, li {
     padding-top: 4px;
     padding-bottom: 4px;
     background-color: burlywood;
+    margin-left: 0px;
+    font-size: large;
 }
