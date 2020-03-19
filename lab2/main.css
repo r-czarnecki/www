@@ -79,7 +79,8 @@ img {
 }
 
 .info {
-    text-align: left;
+    width: 512px;
+    background-color: gold;
     font-weight: bold;
     margin-left: 0px;
     font-size: large;
@@ -94,6 +95,39 @@ ul, li {
     padding-top: 4px;
     padding-bottom: 4px;
     background-color: burlywood;
-    margin-left: 0px;
+    margin-left: auto;
+    margin-right: auto;
     font-size: large;
+}
+
+.info2 {
+    text-align: left;
+    border: 1px solid black;
+    padding-top: 10px;
+    padding-left: 10px;
+    width: 500px;
+}
+
+.info2 div * {
+    margin-left: 200px;
+    margin-top: 0px;
+}
+
+.info2 div {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.info2 h2 {
+    position: absolute;
+    font-size: large;
+    margin-top: -10px;
+    top: 50%;
+    margin-left: 0px;
+}
+
+section {
+    width: 512px;
+    margin-left: auto;
+    margin-right: auto;
 }
