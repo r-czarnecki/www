@@ -16,8 +16,8 @@
         <p id="pierwszy">Opis1</p>
         <p id="drugi">Opis2</p>
     </section>
-
-    <main>
+    
+    <div class="grid">
         <nav>
             <p>MENU</p>
             <hr>
@@ -36,93 +36,100 @@
                 <li><a href="">Strona7</a></li>
             </ul>
         </nav>
-
-        <div class="kol2">
-            <section class="loty">
-                <h1>Najbliższe loty</h1>
-                <div>
-                    <p id="super">Ale super lot!</p>
-                    <table>
-                        <tr>
-                            <th>Nr lotu</th>
-                            <th>Skąd</th>
-                            <th>Dokąd</th>
-                            <th>Data</th>
-                            <th>Godzina</th>
-                        </tr>
-                        <tr>
-                            <td><a href="lot.html">1</a></td>
-                            <td>A1</td>
-                            <td>B1</td>
-                            <td>01.01.2020</td>
-                            <td>00:00</td>
-                        </tr>
-                        <tr id="super_lot">
-                            <td><a href="lot.html">2</a></td>
-                            <td>A2</td>
-                            <td>B2</td>
-                            <td>01.01.2020</td>
-                            <td>00:00</td>
-                        </tr>
-                        <tr>
-                            <td><a href="lot.html">3</a></td>
-                            <td>A3</td>
-                            <td>B3</td>
-                            <td>01.01.2020</td>
-                            <td>00:00</td>
-                        </tr>
-                    </table>
-                </div>
-            </section>
-        </div>  
-
-        <div class="kol3">
-            <section class="opóźnienia">
-                <h1>Opóźnienia</h1>
+        
+        <section class="loty">
+            <h1>Najbliższe loty</h1>
+            <div>
+                <p id="super">Ale super lot!</p>
                 <table>
                     <tr>
-                        <th>Skąd</th>
-                        <th>Dokąd</th>
-                        <th>Kiedy</th>
-                        <th>Opóźnienie</th>
+                        <th><div class="overflow">Nr lotu</div></th>
+                        <th><div class="overflow">Skąd</div></th>
+                        <th><div class="overflow">Dokąd</div></th>
+                        <th><div class="overflow">Data</div></th>
+                        <th><div class="overflow">Godzina</div></th>
                     </tr>
-                    <tr class="małe">
-                        <td>A1</td>
-                        <td>B1</td>
-                        <td>01.01.2020</td>
-                        <td>10 min</td>
+                    <tr>
+                        <td><div class="overflow"><a href="lot.html">1</a></div></td>
+                        <td><div class="overflow">A1</div></td>
+                        <td><div class="overflow">B1</div></td>
+                        <td><div class="overflow">01.01.2020</div></td>
+                        <td><div class="overflow">00:00</div></td>
                     </tr>
-                    <tr class="odwołany">
-                        <td>A2</td>
-                        <td>B2</td>
-                        <td>01.01.2020</td>
-                        <td>Odwołany</td>
+                    <tr id="super_lot">
+                        <td><div class="overflow"><a href="lot.html">2</a></div></td>
+                        <td><div class="overflow">A2</div></td>
+                        <td><div class="overflow">B2</div></td>
+                        <td><div class="overflow">01.01.2020</div></td>
+                        <td><div class="overflow">00:00</div></td>
                     </tr>
-                    <tr class="duże">
-                        <td>A3</td>
-                        <td>B3</td>
-                        <td>01.01.2020</td>
-                        <td>45 min</td>
+                    <tr>
+                        <td><div class="overflow"><a href="lot.html">3</a></div></td>
+                        <td><div class="overflow">A3</div></td>
+                        <td><div class="overflow">B3</div></td>
+                        <td><div class="overflow">01.01.2020</div></td>
+                        <td><div class="overflow">00:00</div></td>
                     </tr>
                 </table>
-            </section>
+            </div>
+        </section>
 
-            <section class="rezerwacja">
-                <h1>Rezerwacja miejsca</h1>
-                <form action="popup.html">
-                    <label for="imię">Imię</label><br>
-                    <input type="text" id="imię" name="imię"><br>
-                    <label for="nazwisko">Nazwisko</label><br>
-                    <input type="text" id="nazwisko" name="nazwisko"><br>
-                    <label for="data">Data lotu</label><br>
-                    <input type="date" id="data" name="data"><br>
-                    <input type="submit" value="Wyczyść"><br>
-                    <input type="submit" value="Prześlij">
-                </form>
-            </section>
-        </div>
-    </main>
+        <section class="opóźnienia">
+            <h1>Opóźnienia</h1>
+            <table>
+                <tr>
+                    <th><div class="overflow">Skąd</div></th>
+                    <th><div class="overflow">Dokąd</div></th>
+                    <th><div class="overflow">Kiedy</div></th>
+                    <th><div class="overflow">Opóźnienie</div></th>
+                </tr>
+                <tr class="małe">
+                    <td><div class="overflow">A1</div></td>
+                    <td><div class="overflow">B1</div></td>
+                    <td><div class="overflow">01.01.2020</div></td>
+                    <td><div class="overflow">10 min</div></td>
+                </tr>
+                <tr class="odwołany">
+                    <td><div class="overflow">A2</div></td>
+                    <td><div class="overflow">B2</div></td>
+                    <td><div class="overflow">01.01.2020</div></td>
+                    <td><div class="overflow">Odwołany</div></td>
+                </tr>
+                <tr class="duże">
+                    <td><div class="overflow">A3</div></td>
+                    <td><div class="overflow">B3</div></td>
+                    <td><div class="overflow">01.01.2020</div></td>
+                    <td><div class="overflow">45 min</div></td>
+                </tr>
+            </table>
+        </section>
 
+        <section class="rezerwacja">
+            <h1>Rezerwacja miejsca</h1>
+            <form action="popup.html">
+                <label for="imię">Imię</label><br>
+                <input type="text" id="imię" name="imię"><br>
+                <label for="nazwisko">Nazwisko</label><br>
+                <input type="text" id="nazwisko" name="nazwisko"><br>
+                <label for="skąd">Skąd</label><br>
+                <select id="skąd" name="skąd">
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="A3">A3</option>
+                </select><br>
+                <label for="dokąd">Dokąd</label><br>
+                <select id="dokąd" name="dokąd">
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="B3">B3</option>
+                </select><br>
+                <label for="data">Data lotu</label><br>
+                <input type="date" id="data" name="data"><br>
+                <input type="submit" value="Wyczyść"><br>
+                <input type="submit" value="Prześlij">
+            </form>
+        </section>
+    </div>
 
     <footer>Rafał Czarnecki</footer>
 </body>
