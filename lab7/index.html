@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Lista lotów</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+</head>
+<body>
+    <div id="wholePopup">
+        <div class="cover"></div>
+        <div class="popup">
+            <section>
+                <p>Czy dane są poprawne?</p>
+                <p id="infoImię"></p>
+                <p id="infoNazwisko"></p>
+                <p id="infoZDo"></p>
+                <p id="infoData"></p>
+                <a href="" id="anuluj">Nie, wróć do strony</a>
+                <a href="index.html">Tak, kontynuuj</a>
+            </section>
+        </div>
+    </div>
+
+    <header>Lista lotów</header>
+    <img src="img/logo.jpg" alt="logo firmy">
+
+    <section>
+        <p id="pierwszy">Opis1</p>
+        <p id="drugi">Opis2</p>
+    </section>
+    
+    <div class="grid">
+        <nav>
+            <p>MENU</p>
+            <hr>
+            <ul>
+                <li><a href="index.html">Strona główna</a></li>
+                <li><a href="lot.html">Super lot!</a></li>
+                <li><a href="popup.html">Popup</a></li>
+                <li><a href="">Kontakt</a></li>
+                <li>
+                    <a href="">Strona5</a>
+                    <ul>
+                        <li><a href="">Podstrona1</a></li>
+                        <li><a href="">Podstrona2</a></li>
+                    </ul>
+                </li>
+                <li><a href="">Strona7</a></li>
+            </ul>
+        </nav>
+        
+        <section class="loty">
+            <h1>Najbliższe loty</h1>
+            <div>
+                <p id="super">Ale super lot!</p>
+                <table>
+                    <tr>
+                        <th>Nr lotu</th>
+                        <th>Skąd</th>
+                        <th>Dokąd</th>
+                        <th>Data</th>
+                        <th>Godzina</th>
+                    </tr>
+                    <tr>
+                        <td><a href="lot.html">1</a></td>
+                        <td>A1</td>
+                        <td>B1</td>
+                        <td>01.01.2020</td>
+                        <td>00:00</td>
+                    </tr>
+                    <tr id="super_lot">
+                        <td><a href="lot.html">2</a></td>
+                        <td>A2</td>
+                        <td>B2</td>
+                        <td>01.01.2020</td>
+                        <td>00:00</td>
+                    </tr>
+                    <tr>
+                        <td><a href="lot.html">3</a></td>
+                        <td>A3</td>
+                        <td>B3</td>
+                        <td>01.01.2020</td>
+                        <td>00:00</td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+
+        <section class="opóźnienia">
+            <h1>Opóźnienia</h1>
+            <div class="overflow"><table>
+                <tr>
+                    <th>Skąd</th>
+                    <th>Dokąd</th>
+                    <th>Kiedy</th>
+                    <th>Opóźnienie</th>
+                </tr>
+                <tr class="małe">
+                    <td>A1</td>
+                    <td>B1</td>
+                    <td>01.01.2020</td>
+                    <td>10 min</td>
+                </tr>
+                <tr class="odwołany">
+                    <td>A2</td>
+                    <td>B2</td>
+                    <td>01.01.2020</td>
+                    <td>Odwołany</td>
+                </tr>
+                <tr class="duże">
+                    <td>A3</td>
+                    <td>B3</td>
+                    <td>01.01.2020</td>
+                    <td>45 min</td>
+                </tr>
+            </table></div>
+        </section>
+
+        <section class="rezerwacja">
+            <h1>Rezerwacja miejsca</h1>
+            <form>
+                <label for="imię">Imię</label><br>
+                <input type="text" id="imię" name="imię"><br>
+                <label for="nazwisko">Nazwisko</label><br>
+                <input type="text" id="nazwisko" name="nazwisko"><br>
+                <label for="skąd">Skąd</label><br>
+                <select id="skąd" name="skąd">
+                    <option value="A1">A1</option>
+                    <option value="A2">A2</option>
+                    <option value="A3">A3</option>
+                </select><br>
+                <label for="dokąd">Dokąd</label><br>
+                <select id="dokąd" name="dokąd">
+                    <option value="B1">B1</option>
+                    <option value="B2">B2</option>
+                    <option value="B3">B3</option>
+                </select><br>
+                <label for="data">Data lotu</label><br>
+                <input type="date" id="data" name="data"><br>
+                <input type="submit" id="wyczyść" value="Wyczyść"><br>
+                <input type="submit" id="prześlij" value="Prześlij">
+            </form>
+        </section>
+    </div>
+
+    <footer>Rafał Czarnecki</footer>
+    <script>var exports = {}; </script>
+    <script src="main.js"></script>
+</body>
+</html>
