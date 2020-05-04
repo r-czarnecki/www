@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="quiz.css">
+</head>
+<body>
+    <section class="introduction">
+        <h1>Quiz - wstęp:</h1>
+        <hr>
+        <p id="nrOfQuestions">Quiz składa się z $x matematycznych pytań.</p>
+        <p>Aby go zakończyć należy odpowiedzieć na każde z nich.</p>
+        <p>Celem jest jak najszybsze rozwiązanie quizu. Każda zła odpowiedź skutkuje dodaniem pewnej ilości czasu.</p>
+        <button type="button" id="start" value="start">Start</button>
+    </section>
+
+    <section class="highscores">
+        <h1>Najlepsze wyniki:</h1>
+        <hr>
+    </section>
+
+    <div class="test">
+        <section class="time">
+            <h1>Aktualny czas:</h1>
+            <hr>
+            <p>$x</p>
+        </section>
+
+        <section class="remaining">
+            <h1>Pozostało pytań:</h1>
+            <hr>
+            <p>$x</p>
+        </section>
+
+        <nav>
+            <h1>Nawigacja</h1>
+            <hr>
+            <div class="questionHolder">
+            </div>
+            <button type="button" id="previous">Poprzednie</button>
+            <button type="button" id="next">Następne</button>
+            <button type="button" id="stop">Zakończ</button>
+            <button type="button" id="cancel">Anuluj</button>
+        </nav>
+
+        <section class="question">
+            <h1></h1>
+            <p id="penalty"></p>
+            <hr>
+            <p id="equation"></p>
+            <input type="text" id="answer">
+            <p id="submittedAnswer"></p>
+            <button type="button" id="confirm">Potwierdź</button>
+        </section>
+    </div>
+    
+    <section class="raport">
+        <h1>Koniec quizu!</h1>
+        <hr>
+        <section class="result">
+            <h2>Twój wynik wynosi:</h2>
+            <p class="resultTime"></p>
+        </section>
+        <hr>
+        <section class="answers">
+            <h2>Odpowiedzi:</h2>
+        </section>
+        <hr>
+        <button>Wyjdź</button>
+    </section>
+    <script src="quiz.js" type="module"></script>
+</body>
+</html>
