@@ -3,13 +3,12 @@ function submit(ev: MouseEvent) {
     const form = document.querySelector(".rezerwacja form") as HTMLFormElement;
 
     for (let i = 0; i <= 4; i++)
-        if ((form.elements[i] as HTMLInputElement).value === "")
+        if ((form.elements[i] as HTMLInputElement).value.trim() === "")
             return;
 
-    if(new Date((document.querySelector("#data") as HTMLInputElement).value) < new Date())
+    if (!isDateOk())
         return;
 
-    (document.querySelector("#wholePopup") as HTMLElement).style.display = "contents";
     const firstButton = document.querySelector(".popup a") as HTMLElement;
 
     const setInfo = (id: string, text: string) => {
@@ -17,10 +16,11 @@ function submit(ev: MouseEvent) {
         info.textContent = text;
     }
 
-    setInfo("infoImię", "Imię: " + (form.elements[0] as HTMLInputElement).value);
-    setInfo("infoNazwisko", "Nazwisko: " + (form.elements[1] as HTMLInputElement).value);
-    setInfo("infoZDo", "Z: " + (form.elements[2] as HTMLInputElement).value + " Do: " + (form.elements[3] as HTMLInputElement).value);
-    setInfo("infoData", "Data: " + (form.elements[4] as HTMLInputElement).value);
+    setInfo("infoImię", `Imię: ${(form.elements[0] as HTMLInputElement).value.trim()}`);
+    setInfo("infoNazwisko", `Nazwisko: ${(form.elements[1] as HTMLInputElement).value.trim()}`);
+    setInfo("infoZDo", `Z: ${(form.elements[2] as HTMLInputElement).value} Do: ${(form.elements[3] as HTMLInputElement).value}`);
+    setInfo("infoData", `Data: ${(form.elements[4] as HTMLInputElement).value}`);
+    (document.querySelector("#wholePopup") as HTMLElement).style.display = "block";
 }
 
 function clear(ev: MouseEvent) {
@@ -34,6 +34,29 @@ function clear(ev: MouseEvent) {
         else
             elem.value = "";
     }
+
+    (document.querySelector("#prześlij") as HTMLButtonElement).setAttribute("disabled", "");
+}
+
+function isNameOk(text: HTMLInputElement) {
+    return (text.value !== null && text.value.trim() !== "");
+}
+
+function isDateOk() {
+    const selected = new Date((document.querySelector("#data") as HTMLInputElement).value);
+    const current = new Date();
+    selected.setHours(0, 0, 0, 0);
+    current.setHours(0, 0, 0, 0);
+    return selected >= current;
+}
+
+function updateSubmitButton(ev: Event) {
+    if(isNameOk(document.querySelector("#imię") as HTMLInputElement) &&
+       isNameOk(document.querySelector("#nazwisko") as HTMLInputElement) &&
+       isDateOk())
+       (document.querySelector("#prześlij") as HTMLButtonElement).removeAttribute("disabled");
+    else
+        (document.querySelector("#prześlij") as HTMLButtonElement).setAttribute("disabled", "");
 }
 
 (document.querySelector("#wyczyść") as HTMLElement).addEventListener("click", clear);
@@ -42,3 +65,8 @@ function clear(ev: MouseEvent) {
     ev.preventDefault();
     (document.querySelector("#wholePopup") as HTMLElement).style.display = "none";
 });
+
+
+(document.querySelector("#imię") as HTMLInputElement).addEventListener("input", updateSubmitButton);
+(document.querySelector("#nazwisko") as HTMLInputElement).addEventListener("input", updateSubmitButton);
+(document.querySelector("#data") as HTMLInputElement).addEventListener("input", updateSubmitButton);
