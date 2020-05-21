@@ -1,0 +1,90 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+}
+
+li a {
+  text-decoration: none;
+  color: black;
+  font-size: 30px;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+img {
+  width: 50%;
+  max-width: 300px;
+}
+
+#hello {
+  width: initial;
+  max-width: 75%;
+}
+
+li {
+  padding: 20px;
+  list-style-type: none;
+}
+
+li:nth-child(even) {
+  background-color: darkkhaki;
+}
+
+li:nth-child(odd) {
+  background-color: burlywood;
+}
+
+li p {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+
+table {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 40px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 50%;
+  max-width: 300px;
+  text-align: center;
+}
+
+th {
+  font-size: 20px;
+}
+
+th, td {
+  padding: 4px;
+}
+
+#change {
+  width: 50%;
+  max-width: 298px;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid black;
+  margin-top: 40px;
+}
+
+form p {
+  display: inline-block;
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+form input[type=number] {
+  width: 50%;
+}
+
+#return button {
+  width: 50%;
+  max-width: 300px;
+  margin-top: 30px;
+}
