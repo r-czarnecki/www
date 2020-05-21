@@ -15,15 +15,14 @@ memes.add_meme(new Meme(6, 'Elite', 1200, 'images/meme6.jpg'));
 memes.add_meme(new Meme(7, 'Platinum', 1100, 'images/meme7.jpg'));
 memes.add_meme(new Meme(8, 'Gold', 1000, 'images/meme8.png'));
 
-
 function get_meme(id) {
   return memes.get_meme(id);
 }
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  const most_expensive = memes.get_most_expensive();
-  res.render('index', { title: 'Meme market', message: 'Hello there!', memes: most_expensive });
+  const mostExpensive = memes.get_most_expensive();
+  res.render('index', { title: 'Meme market', message: 'Hello there!', memes: mostExpensive });
 });
 
 router.get('/meme/:memeId', function (req, res) {
