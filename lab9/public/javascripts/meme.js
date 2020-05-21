@@ -4,10 +4,10 @@ export class Meme {
         this.name = name;
         this.price = price;
         this.url = url;
-        this.price_history = [price];
+        this.priceHistory = [price];
     }
-    change_price(new_price) {
-        this.price = new_price;
-        this.price_history.push(new_price);
+    change_price(newPrice) {
+        this.price = newPrice;
+        this.priceHistory.push(newPrice);
     }
 }

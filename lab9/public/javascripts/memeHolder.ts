@@ -7,8 +7,8 @@ export class MemeHolder {
         this.memes = [];
     }
 
-    public add_meme(new_meme: Meme) {
-        this.memes.push(new_meme);
+    public add_meme(newMeme: Meme) {
+        this.memes.push(newMeme);
     }
 
     public get_most_expensive() {
@@ -18,7 +18,7 @@ export class MemeHolder {
     }
 
     public get_meme(id: number) {
-        for (let meme of this.memes)
+        for (const meme of this.memes)
             if (meme.id == id)
                 return meme;
 

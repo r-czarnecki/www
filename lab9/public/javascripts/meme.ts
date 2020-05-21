@@ -3,18 +3,18 @@ export class Meme {
     public name: string;
     public price: number;
     public url: string;
-    public price_history: number[];
+    public priceHistory: number[];
 
     public constructor(id: number, name: string, price: number, url: string) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.url = url;
-        this.price_history = [price];
+        this.priceHistory = [price];
     }
 
-    public change_price(new_price: number) {
-        this.price = new_price;
-        this.price_history.push(new_price);
+    public change_price(newPrice: number) {
+        this.price = newPrice;
+        this.priceHistory.push(newPrice);
     }
 }

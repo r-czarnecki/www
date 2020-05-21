@@ -12,7 +12,7 @@ async function checkList() {
     expect(list.length).equal(3);
 
     let lastprice = null;
-    for (let elem of list) {
+    for (const elem of list) {
         const priceText = await elem.find("p").getText();
         expect(priceText.slice(0, 7)).equal("Price: ");
         const price = parseInt(priceText.slice(7), 10);
@@ -60,9 +60,9 @@ describe("Wrong input", () => {
         await driver.get(url);
 
         await driver.find("a").doClick();
-        const current_price = await getCurrentPrice();
+        const currentPrice = await getCurrentPrice();
         await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([current_price]);
+        await checkTable([currentPrice]);
     });
 
     it("Wrong input", async function () {
@@ -70,10 +70,10 @@ describe("Wrong input", () => {
         await driver.get(url);
 
         await driver.find("a").doClick();
-        const current_price = await getCurrentPrice();
+        const currentPrice = await getCurrentPrice();
         await (await driver.find("input[type=number]")).sendKeys("IHGASDG");
         await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([current_price]);
+        await checkTable([currentPrice]);
     });
 
     it("Negative price", async function () {
@@ -81,10 +81,10 @@ describe("Wrong input", () => {
         await driver.get(url);
 
         await driver.find("a").doClick();
-        const current_price = await getCurrentPrice();
+        const currentPrice = await getCurrentPrice();
         await (await driver.find("input[type=number]")).sendKeys("-20");
         await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([current_price]);
+        await checkTable([currentPrice]);
     });
 });
 
@@ -94,11 +94,11 @@ describe("Correct change", () => {
         await driver.get(url);
 
         await (await driver.findAll("a"))[1].doClick();
-        const current_price = await getCurrentPrice();
+        const currentPrice = await getCurrentPrice();
         await (await driver.find("input[type=number]")).sendKeys("100");
         await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([100, current_price]);
-        
+        await checkTable([100, currentPrice]);
+
         await (await driver.find("a")).doClick();
         await checkList();
     });
@@ -107,25 +107,25 @@ describe("Correct change", () => {
         this.timeout(20000);
         await driver.get(url);
 
-        const original_list = [];
-        for (let elem of await driver.findAll("li"))
-            original_list.push(await (await elem.find("p")).getText());
-        
+        const originalList = [];
+        for (const elem of await driver.findAll("li"))
+            originalList.push(await (await elem.find("p")).getText());
+
         await (await driver.findAll("a"))[1].doClick();
-        const current_price = await getCurrentPrice();
+        const currentPrice = await getCurrentPrice();
         await (await driver.find("input[type=number]")).sendKeys("200");
         await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([200, current_price]);
+        await checkTable([200, currentPrice]);
 
-        await (await driver.find("input[type=number]")).sendKeys(current_price.toString());
+        await (await driver.find("input[type=number]")).sendKeys(currentPrice.toString());
         await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([current_price, 200, current_price]);
+        await checkTable([currentPrice, 200, currentPrice]);
 
         await (await driver.find("a")).doClick();
         await checkList();
 
-        const new_list = await driver.findAll("li");
-        for (let i = 0; i < new_list.length; i++)
-            expect(await (await new_list[i].find("p")).getText()).equal(original_list[i]);
+        const newList = await driver.findAll("li");
+        for (let i = 0; i < newList.length; i++)
+            expect(await (await newList[i].find("p")).getText()).equal(originalList[i]);
     });
 });

@@ -2,8 +2,8 @@ export class MemeHolder {
     constructor() {
         this.memes = [];
     }
-    add_meme(new_meme) {
-        this.memes.push(new_meme);
+    add_meme(newMeme) {
+        this.memes.push(newMeme);
     }
     get_most_expensive() {
         return this.memes.sort((a, b) => {
@@ -11,7 +11,7 @@ export class MemeHolder {
         }).slice(0, 3);
     }
     get_meme(id) {
-        for (let meme of this.memes)
+        for (const meme of this.memes)
             if (meme.id == id)
                 return meme;
         return null;
