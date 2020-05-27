@@ -3,7 +3,7 @@ import { secondsToString } from "./clock.js";
 import { fillValue } from "./quiz.js";
 import { getTopResults } from "./storage.js";
 
-async function generateHighScores() {
+function generateHighScores() {
     let noScores = true;
     let count = 0;
     getTopResults(10).then( topResults => {
