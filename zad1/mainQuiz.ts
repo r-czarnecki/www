@@ -1,4 +1,4 @@
-import { updateClock, secondsToString } from "./clock.js";
+import { updateClock, secondsToString, elapsedTime } from "./clock.js";
 import { quiz, Colors } from "./quizQuestions.js";
 import { restartQuiz, fillValue } from "./quiz.js";
 
@@ -77,6 +77,14 @@ function findNext() {
         }
 }
 
+function saveQuestionTime(questionNr: number, penalty: number) {
+    const lastAnswer = elapsedTime(parseInt(sessionStorage.getItem("lastAnswer"), 10));
+    const currentTime = elapsedTime(new Date().getTime());
+
+    sessionStorage.setItem("Time" + questionNr, (currentTime - lastAnswer + penalty).toString());
+    sessionStorage.setItem("lastAnswer", new Date().getTime().toString());
+}
+
 function confirmButton(ev: MouseEvent) {
     const elem = ev.target as HTMLButtonElement;
     const input = document.querySelector("#answer") as HTMLInputElement;
@@ -99,6 +107,7 @@ function confirmButton(ev: MouseEvent) {
         newNode.textContent = "To jest poprawna odpowiedź!";
         newNode.style.color = Colors.infoColor;
         sessionStorage.setItem("Q" + currentQuestion, "ok");
+        saveQuestionTime(currentQuestion, 0);
         (document.querySelector("p[data-question-nr='" + (currentQuestion + 1) + "']") as HTMLElement).className = "questionNum ok";
 
         decrementRemaining();
@@ -112,6 +121,7 @@ function confirmButton(ev: MouseEvent) {
 
         const time = parseInt(sessionStorage.getItem("time"), 10);
         sessionStorage.setItem("time", (time - quiz.questions[currentQuestion].penalty * 1000).toString());
+        saveQuestionTime(currentQuestion, quiz.questions[currentQuestion].penalty);
         updateClock();
 
         decrementRemaining();

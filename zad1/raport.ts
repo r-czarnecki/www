@@ -87,8 +87,6 @@ export function startRaport() {
         generateRaport(i);
 
     (document.querySelector(".raport button") as HTMLButtonElement).addEventListener("click", (ev: MouseEvent) => {
-        restartQuiz();
+        saveResults(elapsedTime(endTime));
     });
-
-    saveResults(elapsedTime(endTime));
 }
