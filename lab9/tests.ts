@@ -1,131 +1,71 @@
-import { Builder, Capabilities, Key, error } from "selenium-webdriver";
 import { expect } from "chai";
-import { driver } from "mocha-webdriver";
-import { SeleniumServer } from "selenium-webdriver/remote";
-import { fstat } from "fs";
-import { cwd } from "process";
+import { Meme } from "./public/javascripts/meme.js";
+import { MemeHolder } from "./public/javascripts/memeHolder.js";
 
-const url = 'http://localhost:3000';
-
-async function checkList() {
-    const list = await driver.findAll("li");
-    expect(list.length).equal(3);
-
-    let lastprice = null;
-    for (const elem of list) {
-        const priceText = await elem.find("p").getText();
-        expect(priceText.slice(0, 7)).equal("Price: ");
-        const price = parseInt(priceText.slice(7), 10);
-
-        if (lastprice != null)
-            expect(price).lte(lastprice);
-
-        lastprice = price;
-    }
+function checkMeme(meme: Meme, id: number, name: string, price: number, url: string, priceHistory: number[]) {
+    expect(meme.get_id()).equal(id);
+    expect(meme.get_name()).equal(name);
+    expect(meme.get_price()).equal(price);
+    expect(meme.get_url()).equal(url);
+    expect(meme.get_price_history()).eql(priceHistory);
 }
 
-async function checkTable(values: number[]) {
-    const table = await driver.findAll("table td");
-
-    for (let i = 0; i < values.length; i++)
-        expect(parseInt(await table[i].getText(), 10)).equal(values[i]);
-}
-
-async function getCurrentPrice() {
-    const table = await driver.findAll("table td");
-    return parseInt(await table[0].getText(), 10);
-}
-
-describe("No changes", () => {
-    it("Check main page", async function () {
-        this.timeout(20000);
-        await driver.get(url);
-
-        await checkList();
+describe("Meme", () => {
+    it("Getters", async () => {
+        const meme = new Meme(3, "name", 123, "url");
+        checkMeme(meme, 3, "name", 123, "url", [123]);
     });
 
-    it("Return to main page", async function () {
-        this.timeout(20000);
-        await driver.get(url);
+    it("Change price", async () => {
+        const meme = new Meme(3, "name", 123, "url");
+        meme.change_price(42);
+        expect(meme.get_price_history()).eql([123, 42]);
+        expect(meme.get_price()).equal(42);
 
-        await (await driver.find("a")).doClick();
-        await (await driver.find("a")).doClick();
-        await checkList();
+        meme.change_price(123);
+        expect(meme.get_price_history()).eql([123, 42, 123]);
+        expect(meme.get_price()).equal(123);
     });
 });
 
-describe("Wrong input", () => {
-    it("No input", async function () {
-        this.timeout(20000);
-        await driver.get(url);
+describe("MemeHolder", () => {
+    it("Add meme", async () => {
+        const meme1 = new Meme(2, "eman", 90, "lru");
+        const meme2 = new Meme(10, "abc", 400, "def");
+        const memeHolder = new MemeHolder();
 
-        await driver.find("a").doClick();
-        const currentPrice = await getCurrentPrice();
-        await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([currentPrice]);
+        expect(memeHolder.get_meme(2)).equal(null);
+
+        memeHolder.add_meme(meme1);
+        expect(memeHolder.get_meme(2)).equal(meme1);
+
+        memeHolder.add_meme(meme2);
+        expect(memeHolder.get_meme(2)).equal(meme1);
+        expect(memeHolder.get_meme(10)).equal(meme2);
     });
 
-    it("Wrong input", async function () {
-        this.timeout(20000);
-        await driver.get(url);
+    it("Most expensive", async () => {
+        const memes = [];
+        memes.push(new Meme(1, "name1", 90, "url1"));
+        memes.push(new Meme(2, "name2", 0, "url2"));
+        memes.push(new Meme(3, "name3", 10, "url3"));
+        memes.push(new Meme(4, "name4", 1000, "url4"));
+        memes.push(new Meme(5, "name5", 42, "url5"));
+        memes.push(new Meme(6, "name6", 24, "url6"));
 
-        await driver.find("a").doClick();
-        const currentPrice = await getCurrentPrice();
-        await (await driver.find("input[type=number]")).sendKeys("IHGASDG");
-        await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([currentPrice]);
-    });
+        const memeHolder = new MemeHolder();
+        expect(memeHolder.get_most_expensive()).eql([]);
 
-    it("Negative price", async function () {
-        this.timeout(20000);
-        await driver.get(url);
+        memeHolder.add_meme(memes[0]);
+        expect(memeHolder.get_most_expensive()).eql([memes[0]]);
 
-        await driver.find("a").doClick();
-        const currentPrice = await getCurrentPrice();
-        await (await driver.find("input[type=number]")).sendKeys("-20");
-        await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([currentPrice]);
-    });
-});
+        memeHolder.add_meme(memes[1]);
+        memeHolder.add_meme(memes[2]);
+        expect(memeHolder.get_most_expensive()).eql([memes[0], memes[2], memes[1]]);
 
-describe("Correct change", () => {
-    it("Change price", async function () {
-        this.timeout(20000);
-        await driver.get(url);
+        for (const m of memes.slice(2))
+            memeHolder.add_meme(m);
 
-        await (await driver.findAll("a"))[1].doClick();
-        const currentPrice = await getCurrentPrice();
-        await (await driver.find("input[type=number]")).sendKeys("100");
-        await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([100, currentPrice]);
-
-        await (await driver.find("a")).doClick();
-        await checkList();
-    });
-
-    it("Change and restore", async function () {
-        this.timeout(20000);
-        await driver.get(url);
-
-        const originalList = [];
-        for (const elem of await driver.findAll("li"))
-            originalList.push(await (await elem.find("p")).getText());
-
-        await (await driver.findAll("a"))[1].doClick();
-        const currentPrice = await getCurrentPrice();
-        await (await driver.find("input[type=number]")).sendKeys("200");
-        await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([200, currentPrice]);
-
-        await (await driver.find("input[type=number]")).sendKeys(currentPrice.toString());
-        await (await driver.find("input[type=submit]")).doClick();
-        await checkTable([currentPrice, 200, currentPrice]);
-
-        await (await driver.find("a")).doClick();
-        await checkList();
-
-        const newList = await driver.findAll("li");
-        for (let i = 0; i < newList.length; i++)
-            expect(await (await newList[i].find("p")).getText()).equal(originalList[i]);
+        expect(memeHolder.get_most_expensive()).eql([memes[3], memes[0], memes[4]]);
     });
 });

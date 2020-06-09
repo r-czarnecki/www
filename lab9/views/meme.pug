@@ -4,12 +4,12 @@ html
   style
     include ../public/stylesheets/style.css
   body
-    h1= meme.name
-    img(src="../" + meme.url)
+    h1= meme.get_name()
+    img(src="../" + meme.get_url())
     table
       tr
         th= "Price history"
-      each price in meme.priceHistory.slice().reverse()
+      each price in meme.get_price_history().slice().reverse()
         tr
           td=price
     section(id="change")
