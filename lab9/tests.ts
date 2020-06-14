@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import { Meme } from "./public/javascripts/meme.js";
-import { MemeHolder } from "./public/javascripts/memeHolder.js";
+import { Meme } from "./src/meme.js";
+import { MemeHolder } from "./src/memeHolder.js";
 
 function checkMeme(meme: Meme, id: number, name: string, price: number, url: string, priceHistory: number[]) {
     expect(meme.get_id()).equal(id);

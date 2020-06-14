@@ -1,0 +1,27 @@
+html
+  head
+    title= title
+  style
+    include ../public/stylesheets/style.css
+  body
+    h1= message
+    img(src="images/hello.jpg", id="hello")
+    section(id="loginSection")
+      if user
+        p(id="loginMessage")=`Logged in as: `
+        p(id="username")=user
+        a(href="logout" id="logout")="Logout"
+      else
+        form(method="post" id="login")
+          p="Username: "
+          input(type="text" name="username")
+          p="Password: "
+          input(type="password" name="password")
+          input(type="submit" value="Log in")
+    h1="Meme list"
+    ul
+      each meme in memes
+        li
+          a(href="meme/" + meme.get_id()) #{meme.get_name()}
+          img(src=meme.get_url())
+          p="Price: " + meme.get_price()

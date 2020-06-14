@@ -103,7 +103,7 @@ function confirmButton(ev: MouseEvent) {
         newNode.textContent = "Odpowiedź nie może być pusta.";
         newNode.style.color = Colors.warningColor;
     }
-    else if(input.value === quiz.questions[currentQuestion].answer.toString()) {
+    else if(parseInt(input.value, 10).toString() === quiz.questions[currentQuestion].answer.toString()) {
         newNode.textContent = "To jest poprawna odpowiedź!";
         newNode.style.color = Colors.infoColor;
         sessionStorage.setItem("Q" + currentQuestion, "ok");

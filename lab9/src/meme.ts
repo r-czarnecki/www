@@ -14,7 +14,7 @@ export class Meme {
     }
 
     public get_price_history(): number[] {
-        return this.priceHistory;
+        return [...this.priceHistory];
     }
 
     public get_url(): string {

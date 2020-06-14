@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieParser from 'cookie-parser';
-import { MemeHolder } from './public/javascripts/memeHolder.js';
-import { Meme } from './public/javascripts/meme.js';
+import { MemeHolder } from './src/memeHolder.js';
+import { Meme } from './src/meme.js';
 
 const memes = new MemeHolder();
 
@@ -21,10 +21,8 @@ function get_meme(id: number) {
 const app = express();
 
 app.use(express.json());
-app.use(cookieParser());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
 
 app.set('view engine', 'pug');
 
