@@ -6,8 +6,7 @@
         "target": "es6",
         "noImplicitAny": true,
         "moduleResolution": "node",
-        "sourceMap": true,
-        "outDir": "dist",
+        "sourceMap": false,
         "baseUrl": ".",
         "paths": {
             "*": [
@@ -16,6 +15,9 @@
         }
     },
     "include": [
-        "./**/*"
+        "./**/*",
+        "decs.d.ts",
+        "*.ts",
+        "src/*.ts"
     ]
 }

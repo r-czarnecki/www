@@ -66,28 +66,65 @@ const initialUsers = [
     }
 ]
 
-export async function make_transaction(db: sqlite.Database, fun: () => Promise<void>): Promise<void> {
-    return new Promise(async (resolve) => {
-        let done = false;
-        while (!done) {
-            await new Promise((resolve2) => {
-                db.exec(`BEGIN TRANSACTION`, async (err) => {
-                    if (err) {
-                        await new Promise(res => setTimeout(res, 1000));
-                        return;
-                    }
+const transactionQueue: [sqlite.Database, () => Promise<void>, boolean][] = [];
+let isWorking = false;
 
-                    fun().then(() => {
-                        db.exec(`COMMIT`, () => {
-                            done = true;
-                            resolve2();
+function transaction(): Promise<void> | void {
+    if (isWorking)
+        return;
+
+    return new Promise(async (resolve) => {
+        while (transactionQueue.length !== 0 && transactionQueue[0][2]) {
+            isWorking = true;
+            let done = false;
+            const [db, fun] = transactionQueue.shift();
+            while (!done) {
+                await new Promise((resolve2, reject) => {
+                    db.exec(`BEGIN TRANSACTION`, async (err) => {
+                        if (err) {
+                            if (err.message.match("^([^ ]+):")[1] === "SQLITE_ERROR") {
+                                await new Promise(res => setTimeout(res, 10));
+                                resolve2();
+                            }
+                            else
+                                reject(err);
+                            return;
+                        }
+
+                        fun().then(() => {
+                            db.exec(`COMMIT`, () => {
+                                done = true;
+                                resolve2();
+                            });
                         });
                     });
                 });
-            });
+            }
         }
 
+        isWorking = false;
         resolve();
+    });
+}
+
+export function make_transaction(db: sqlite.Database, fun: () => Promise<void>): Promise<void> {
+    let res: () => void;
+    const done = () => {
+        return new Promise<void>((resolve) => {
+            fun().then(() => {
+                res();
+                resolve();
+            });
+        });
+    }
+
+    const tr: [sqlite.Database, () => Promise<void>, boolean] = [db, done, false];
+    transactionQueue.push(tr);
+
+    return new Promise((resolve) => {
+        res = resolve;
+        tr[2] = true;
+        transaction();
     });
 }
 

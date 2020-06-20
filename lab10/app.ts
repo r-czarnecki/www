@@ -3,13 +3,16 @@ import cookieParser from 'cookie-parser';
 import csurf from 'csurf';
 import { MemeHolder } from './src/memeHolder.js';
 import { Meme } from './src/meme.js';
-// import { indexRouter } from './routes/index.js';
 import * as sqlite from 'sqlite3';
 import { init_db } from './src/db.js';
 import session from 'express-session';
 import * as crypto from 'crypto';
+import connect from 'connect';
+import connectSqlite from 'connect-sqlite3';
 
 const app = express();
+
+const SQLiteStore = connectSqlite(session);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -21,7 +24,8 @@ app.use(session({
     secret: 'fsdwoemcmdfl',
     cookie: {
         maxAge: 15 * 60 * 1000
-    }
+    },
+    store: new SQLiteStore()
 }));
 
 app.set('view engine', 'pug');
@@ -61,23 +65,27 @@ app.get('/meme/:memeId', csrfProtection, function (req, res) {
             res.render('404');
             return;
         }
-        res.render('meme', {meme: meme, csrfToken: req.csrfToken(), user: req.session.username });
+        res.render('meme', { meme: meme, csrfToken: req.csrfToken(), user: req.session.username });
     });
 });
 
 app.post('/meme/:memeId', csrfProtection, async function (req, res) {
-    get_meme(parseInt(req.params.memeId, 10)).then(async (meme) => {
-        const price = parseInt(req.body.price, 10);
+    const price = parseInt(req.body.price, 10);
 
+    if (isNaN(price) || price < 0 || req.session.username === undefined) {
+        res.redirect(`/meme/${req.params.memeId}`);
+        return;
+    }
+
+    get_meme(parseInt(req.params.memeId, 10)).then(async (meme) => {
         if (meme == null) {
             res.render('404');
             return;
         }
 
-        if (!isNaN(price) && price >= 0 && req.session.username != undefined)
-            await meme.change_price(price, true, req.session.username);
+        await meme.change_price(price, true, req.session.username);
 
-        res.render('meme', { meme: meme, csrfToken: req.csrfToken(), user: req.session.username });
+        res.redirect(`/meme/${req.params.memeId}`);
     });
 });
 

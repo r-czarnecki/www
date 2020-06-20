@@ -1,8 +1,7 @@
 html
   head
     title= "History"
-  style
-    include ../public/stylesheets/style.css
+    link(rel="stylesheet", href="stylesheets/style.css")
   body
     h1= meme.get_name()
     img(src="../" + meme.get_url())
