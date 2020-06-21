@@ -1,3 +1,3 @@
-(document.querySelector("#cancel") as HTMLButtonElement).addEventListener("click", (ev: MouseEvent) => {
-    window.location.href = "/";
+(document.querySelector('#cancel') as HTMLButtonElement).addEventListener('click', (ev: MouseEvent) => {
+    window.location.href = '/';
 });

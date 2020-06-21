@@ -33,10 +33,28 @@ async function answerQuestion(question: number, answer: string) {
     await (await driver.find('#confirm')).doClick();
 }
 
+function stringToSeconds(time: string) {
+    let seconds = 0;
+
+    let m = time.match('(\\d+)min');
+    if (m !== null)
+        seconds += 60 * parseInt(m[1], 10);
+
+    m = time.match('(\\d+)s');
+    if (m !== null)
+        seconds += parseInt(m[1], 10);
+
+    m = time.match('(\\d+)ms');
+    if (m !== null)
+        seconds += parseInt(m[1], 10) / 1000;
+
+    return seconds;
+}
+
 describe('Logowanie', () => {
-    it('Logowanie user1', async function () {
+    it('Logowanie test1', async function () {
         this.timeout(20000);
-        await login('user1', 'user1');
+        await login('test1', 'test1');
     });
 
     it('Wylogowanie', async function () {
@@ -48,18 +66,18 @@ describe('Logowanie', () => {
         this.timeout(20000);
         await driver.get(url);
 
-        await driver.find('form input[type="text"]').sendKeys('user2');
+        await driver.find('form input[type="text"]').sendKeys('test2');
         await driver.find('form input[type="password"]').sendKeys('eee');
         await (await driver.find('form input[type="submit"]')).doClick();
 
-        expect(await (await driver.find(".error")).getText()).equal('Błędny login lub hasło.');
+        expect(await (await driver.find('.error')).getText()).equal('Błędny login lub hasło.');
     });
 });
 
 describe('Zmiana hasła', () => {
     it('Puste hasło', async function () {
         this.timeout(20000);
-        await login('user1', 'user1');
+        await login('test1', 'test1');
 
         await driver.find('#changePass').doClick();
         await wait(400);
@@ -76,7 +94,7 @@ describe('Zmiana hasła', () => {
         await wait(400);
 
         expect(await (await driver.find('h1')).getText()).equal('Zaloguj się');
-        await login('user1', 'nowe');
+        await login('test1', 'nowe');
     });
 
     it("Wiele sesji", async function () {
@@ -86,10 +104,10 @@ describe('Zmiana hasła', () => {
         await driver.navigate().refresh();
         await wait(400);
 
-        await login('user1', 'nowe');
+        await login('test1', 'nowe');
         await driver.find('#changePass').doClick();
         await wait(400);
-        await driver.find('input[type="password"]').sendKeys('user1');
+        await driver.find('input[type="password"]').sendKeys('test1');
         await driver.find('input[type="submit"]').doClick();
         await driver.navigate().refresh();
         await wait(400);
@@ -108,7 +126,7 @@ describe('Zmiana hasła', () => {
 describe('Quiz', () => {
     it('Próba zakończenia', async function () {
         this.timeout(20000);
-        await login('user1', 'user1');
+        await login('test1', 'test1');
         await (await driver.find('#quiz1')).doClick();
         await wait(400);
 
@@ -122,7 +140,7 @@ describe('Quiz', () => {
         await answerQuestion(2, '2');
         await (await driver.find('#cancel')).doClick();
         await wait(400);
-        expect(await (await driver.find('.loginInfo h1')).getText()).equal('Zalogowany jako: user1');
+        expect(await (await driver.find('.loginInfo h1')).getText()).equal('Zalogowany jako: test1');
 
         await (await driver.find('#quiz1')).doClick();
         await wait(400);
@@ -155,45 +173,57 @@ describe('Quiz', () => {
         driver.get(url + '/quiz/1');
         await wait(400);
 
-        expect(await (await driver.find('.loginInfo h1')).getText()).equal('Zalogowany jako: user1');
+        expect(await (await driver.find('.loginInfo h1')).getText()).equal('Zalogowany jako: test1');
     });
 });
 
 describe('Raport', () => {
-    it('Wyniki user1', async function () {
+    let highscores = 0; 
+    it('Wyniki test1', async function () {
         this.timeout(20000);
         await (await driver.find('#quiz1')).doClick();
         await wait(400);
 
         expect(await (await driver.find('.raport h1')).getText()).equal('Wyniki quizu');
         expect((await driver.findAll('.answers div')).length).equal(8);
-        expect((await driver.findAll('.position')).length).equal(1);
+        highscores = (await driver.findAll('.position')).length;
+        expect(highscores).greaterThan(0);
     });
 
-    it('Wyniki user2', async function () {
-        this.timeout(20000);
+    it('Wyniki test2', async function () {
+        this.timeout(40000);
         await logout();
-        await login('user2', 'user2');
+        await login('test2', 'test2');
 
         await (await driver.find('#quiz1')).doClick();
         await wait(400);
 
         const answers = [5, 8, 54, 16, 36, 16, 56, 256];
-        for (let i = 1; i <= 8; i++)
+        const times = [1, 2, 3, 4, 4, 3, 2, 1];
+        for (let i = 1; i <= 8; i++) {
+            await wait(times[i - 1] * 1000);
             await answerQuestion(i, answers[i - 1].toString());
+        }
 
         await (await driver.find('#stop')).doClick();
         await wait(400);
 
         expect(await (await driver.find('.raport h1')).getText()).equal('Wyniki quizu');
         expect((await driver.findAll('.answers div')).length).equal(8);
-        expect((await driver.findAll('.position')).length).equal(2);
+        expect((await driver.findAll('.position')).length).greaterThan(highscores);
+
+        const receivedTimes = await driver.findAll('#time');
+        for (let i = 0; i < receivedTimes.length; i++) {
+            const seconds = stringToSeconds(await receivedTimes[i].getText());
+            const diff = Math.abs(times[i] - seconds);
+            expect(diff).lessThan(1.5);
+        }
     });
 
     it('Wyjście ze statystyk', async function () {
         await (await driver.find('button')).doClick();
         await wait(400);
 
-        expect(await (await driver.find('.loginInfo h1')).getText()).equal('Zalogowany jako: user2');
+        expect(await (await driver.find('.loginInfo h1')).getText()).equal('Zalogowany jako: test2');
     });
 });

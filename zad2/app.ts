@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     }
 
     database.get(`SELECT lastChange FROM users WHERE login=?;`, [req.session.login], (err, row) => {
-        if (err || row.lastChange > req.session.lastChange) {
+        if (row === undefined || err || row.lastChange > req.session.lastChange) {
             delete(req.session.login);
             delete(req.session.lastChange);
             delete(req.session.userID);

@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "compile": "tsc -p tsconfig.json --module ES6 --lib es2016,dom --target es2016 --allowSyntheticDefaultImports",
-    "test": "npx mocha -r ts-node/register tests.ts",
+    "pretest": "node -r esm initTest.js",
+    "test": "npx mocha -r ts-node/register tests.ts; node -r esm endTest.js",
     "start": "node -r esm app.js",
     "clean": "rm *.js public/javascripts/*.js src/*.js routes/*.js",
     "createdb": "node -r esm src/db.js"

@@ -62,7 +62,7 @@ function transaction(): Promise<void> | void {
                 await new Promise((resolve2, reject) => {
                     database.exec(`BEGIN TRANSACTION`, async (err) => {
                         if (err) {
-                            if (err.message.match("^([^ ]+):")[1] === "SQLITE_ERROR") {
+                            if (err.message.match('^([^ ]+):')[1] === 'SQLITE_ERROR') {
                                 await new Promise(res => setTimeout(res, 10));
                                 resolve2();
                             }

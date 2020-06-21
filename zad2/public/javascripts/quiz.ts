@@ -1,6 +1,6 @@
 export function restartQuiz() {
     sessionStorage.clear();
-    window.location.href = "/";
+    window.location.href = '/';
 }
 
 export function fillValue(selector: string, regex: string, newValue: string) {

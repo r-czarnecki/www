@@ -25,7 +25,7 @@ loginRouter.post('/', (req, res) => {
 
     database.get(`SELECT * FROM users WHERE login=? AND password=?;`, [req.body.login, hash], (err, row) => {
         if (err || row === undefined) {
-            req.session.error = "Błędny login lub hasło.";
+            req.session.error = 'Błędny login lub hasło.';
             res.redirect('/');
             return;
         }
@@ -54,9 +54,9 @@ loginRouter.get('/changePassword', (req, res) => {
 });
 
 loginRouter.post('/changePassword', (req, res) => {
-    if (req.body.newPassword === "") {
+    if (req.body.newPassword === '') {
         res.render('change', {
-            error: "Hasło nie może być puste.",
+            error: 'Hasło nie może być puste.',
             csrfToken: req.csrfToken()
         });
         return;

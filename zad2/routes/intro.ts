@@ -9,7 +9,7 @@ introRouter.get('/', (req, res) => {
         return;
     }
 
-    res.cookie("CSRF", req.csrfToken(), { secure: true });
+    res.cookie('CSRF', req.csrfToken(), { secure: true });
     res.sendFile(`${process.cwd()}/static/introduction.html`);
 });
 
