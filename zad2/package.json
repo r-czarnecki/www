@@ -1,8 +1,8 @@
 {
-  "name": "zad1",
+  "name": "zad2",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "compile": "tsc -p tsconfig.json --module ES6 --lib es2016,dom --target es2016 --allowSyntheticDefaultImports",
     "test": "npx mocha -r ts-node/register tests.ts",
