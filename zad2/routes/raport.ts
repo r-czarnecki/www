@@ -51,16 +51,9 @@ raportRouter.get('/status/:id(\\d+)', async (req, res) => {
                     return;
                 }
 
-                console.log(req.session.userID);
-                console.log(quizID);
-                console.log(req.params.id);
-                console.log(rows);
-                console.log(quiz);
-
                 database.serialize(() => {
                     for (const row of rows) {
                         const nr = parseInt(row.questionNr, 10);
-                        console.log(quiz[0].questions[nr]);
 
                         database.get(`SELECT AVG(time) AS avg FROM questionStatus WHERE quizID=? AND questionNr=?;`,
                                       [quizID, nr], (err, avg) => {
@@ -153,7 +146,6 @@ raportRouter.get('/highscores/:id(\\d)+', async (req, res) => {
                             }
 
                             database.get(`SELECT login FROM users WHERE id=?;`, [quiz.userID], (err, login) => {
-                                console.log(quiz.userID);
                                 if (err) {
                                     reject(err);
                                     return;

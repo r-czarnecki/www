@@ -4,8 +4,6 @@ import { getQuizzes } from '../src/db';
 export const introRouter = express.Router();
 
 introRouter.get('/', (req, res) => {
-    console.log(req.session.currentQuiz);
-    console.log(req.originalUrl);
     if (req.session.currentQuiz !== undefined) {
         res.redirect(`/quiz/${req.session.currentQuiz}`);
         return;

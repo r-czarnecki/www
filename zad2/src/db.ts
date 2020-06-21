@@ -3,7 +3,7 @@ import { initialUsers } from './initialUsers.js';
 import * as crypto from 'crypto';
 import { quizzes } from './quizzes.js';
 
-export const database = new sqlite.Database('data.db', sqlite.OPEN_READWRITE);
+export const database = new sqlite.Database('data.db');
 
 function createIfNeeded(table: string, fun: () => Promise<void>): Promise<void> {
     return new Promise((resolve, reject) => {
@@ -109,7 +109,6 @@ export function make_transaction(fun: () => Promise<void>): Promise<void> {
 }
 
 export function isSolved(userID: number, quizID: number): Promise<boolean> {
-    console.log(userID);
     return new Promise<boolean>((resolve, reject) => {
         database.get(`SELECT time FROM quizStatus WHERE userID=? AND quizID=?;`,
                       [userID, quizID], (err, time) => {

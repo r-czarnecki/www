@@ -69,12 +69,10 @@ function decrementRemaining() {
         sessionStorage.setItem("endTime", new Date().getTime().toString());
         const answers = [];
         const quizTime = elapsedTime(parseInt(sessionStorage.getItem("lastAnswer"), 10));
-        console.log(quizTime);
 
         for (let i = 0; i < quiz.questions.length; i++) {
             const answer = sessionStorage.getItem("Q" + i.toString());
             const answerTime = parseInt(sessionStorage.getItem("Time" + i.toString()), 10);
-            console.log(answerTime);
             answers.push({
                 id: i + 1,
                 answer: answer,
@@ -188,9 +186,6 @@ async function startQuiz() {
         sessionStorage.setItem("remainingQuestions", quiz.questions.length.toString());
     }
 
-    // (document.querySelector(".introduction") as HTMLElement).className += " introGrid";
-    // (document.querySelector("body") as HTMLElement).className += " bodyGrid";
-    // (document.querySelector(".test") as HTMLElement).style.display = "contents";
     fillValue("#nrOfQuestions", "$x", quiz.questions.length.toString());
     fillValue(".remaining p", "$x", sessionStorage.getItem("remainingQuestions"));
     updateClock();

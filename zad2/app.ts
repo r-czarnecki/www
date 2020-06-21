@@ -28,8 +28,6 @@ app.use(express.static('static'));
 app.use(express.static('public'));
 app.use(csrfProtection);
 app.use((req, res, next) => {
-    console.log("A " + (req.originalUrl === '/') + " " + req.originalUrl);
-    console.log("B " + (req.session.login === undefined));
     if (req.originalUrl === '/') {
         next();
         return;
@@ -42,7 +40,6 @@ app.use((req, res, next) => {
 
     database.get(`SELECT lastChange FROM users WHERE login=?;`, [req.session.login], (err, row) => {
         if (err || row.lastChange > req.session.lastChange) {
-            console.log(err);
             delete(req.session.login);
             delete(req.session.lastChange);
             delete(req.session.userID);

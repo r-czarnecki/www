@@ -29,7 +29,6 @@ quizRouter.post('/:id(\\d)+', async (req, res) => {
 
     req.session.currentQuiz = req.params.id;
     req.session.startTime = Date.now();
-    console.log("set " + req.params.id);
     res.end();
 });
 
@@ -41,8 +40,6 @@ quizRouter.post('/cancel', (req, res) => {
 quizRouter.get('/getQuiz', async (req, res) => {
     const quizzes = await getQuizzes(req.session.userID);
     const current = parseInt(req.session.currentQuiz, 10);
-    console.log("CURRENT " + current);
-    console.log(quizzes);
     res.json({ quiz: quizzes[0][current - 1], time: req.session.startTime });
 });
 
@@ -53,8 +50,6 @@ interface Answer {
 }
 
 quizRouter.post('/saveQuiz', async (req, res) => {
-    console.log("received");
-    console.log(req.body.answers);
     const quizTime = Date.now() - req.session.startTime;
     const quizID = req.session.currentQuiz;
     const quizzesInfo = await getQuizzes(req.session.userID);

@@ -4,11 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "rm data.db; npm run createdb; npx mocha -r ts-node/register tests.ts",
-    "start": "tsc -p tsconfig.json --module ES6 --lib es2016,dom --target es2016 --allowSyntheticDefaultImports; node -r esm app.js",
-    "clean": "rm *.js public/javascripts/*.js",
-    "createdb": "tsc src/db.ts --lib es2015,dom --target es2016 --allowSyntheticDefaultImports; node -r esm src/db.js",
-    "ttt": "tsc ttt.ts --lib es2015,dom --target es2016 --allowSyntheticDefaultImports; node -r esm ttt.js"
+    "compile": "tsc -p tsconfig.json --module ES6 --lib es2016,dom --target es2016 --allowSyntheticDefaultImports",
+    "test": "npx mocha -r ts-node/register tests.ts",
+    "start": "node -r esm app.js",
+    "clean": "rm *.js public/javascripts/*.js src/*.js routes/*.js",
+    "createdb": "node -r esm src/db.js"
   },
   "keywords": [],
   "author": "",

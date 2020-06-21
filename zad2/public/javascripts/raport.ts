@@ -167,7 +167,6 @@ fetch(`/raport/status/${quizID}`).then((data) => {
     data.json().then((answers) => {
         const time = answers.time;
         const score = secondsToString(time / 1000);
-        console.log("" + time + " | " + score);
         (document.querySelector(".result p") as HTMLElement).textContent = score;
 
         for(const answer of answers.answers)
