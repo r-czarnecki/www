@@ -1,0 +1,422 @@
+html {
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0px;
+}
+
+body section, body nav {
+    background: antiquewhite;
+    border: 1px solid black;
+    margin: 10px;
+    width: 75%;
+    text-align: center;
+    padding: 10px;
+}
+
+.test {
+    display: contents;
+}
+
+.introduction {
+    height: max-content;
+    max-width: 600px;
+}
+
+.introduction p {
+    margin: 20px;
+}
+
+.introduction button {
+	width: 50%;
+	font-size: 20px;
+	font-weight: bold;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.questionHolder {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.questionNum {
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin: 5px;
+}
+
+.unsolved {
+    background-color: gray;
+}
+
+.ok {
+    background-color: lightseagreen;
+}
+
+.wrong {
+    background-color: red;
+}
+
+nav button, .question button, .raport button {
+    margin-top: 10px;
+    width: 100%;
+    font-size: initial;
+}
+
+#equation {
+    display: inline;
+}
+
+.question input {
+    width: 50px;
+}
+
+.time p {
+    font-weight: bold;
+}
+
+button {
+    cursor: pointer;
+}
+
+#submittedAnswer {
+    display: none;
+    font-weight: bold;
+}
+
+.raport {
+    padding: 0px;
+    max-width: 600px;
+}
+
+h2 {
+    font-size: large;
+}
+
+.dashedhr {
+    border: 1px dashed black;
+    margin-bottom: 0px;
+}
+
+.questionNumRaport {
+    margin-bottom: 5px;
+    background: greenyellow;
+}
+
+.raport hr {
+    margin: 0px;
+}
+
+.raport button {
+    margin: 10px;
+    width: 75%;
+}
+
+.answers {
+    display: contents;
+}
+
+.result {
+    border: none;
+    margin: 15px 0px;
+    padding: 0px;
+    width: 100%;
+}
+
+.result p {
+    font-style: italic;
+}
+
+.result h2, .result p {
+    display: inline;
+}
+
+.answers p {
+    display: inline-block;
+    margin: 10px;
+}
+
+.questionRaport {
+    display: initial;
+    font-style: italic;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    margin-top: 5px;
+}
+
+.highscores {
+    max-width: 600px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.highscores p {
+    margin: 10px;
+}
+
+.position {
+    font-weight: bold;
+}
+
+.remaining {
+    display: none;
+}
+
+.remaining p {
+    font-weight: bold;
+}
+
+.scoreInfo {
+    display: none;
+}
+
+.raport input {
+    margin: 15px;
+}
+
+.login {
+    max-width: 600px;
+}
+
+.login form * {
+    margin-bottom: 5px;
+}
+
+.login form input[type="submit"] {
+    margin-top: 10px;
+    width: 244px;
+    font-weight: bold;
+}
+
+.loginInfo {
+    max-width: 600px;
+}
+
+#logout {
+    margin-right: 20px;
+}
+
+.changePassword {
+    max-width: 600px;
+}
+
+.changePassword button, .changePassword input[type="submit"] {
+    margin-top: 20px;
+}
+
+.changePassword button {
+    margin-right: 20px;
+}
+
+.error {
+    max-width: 600px;
+    color: crimson;
+    margin-bottom: 0px;
+}
+
+.quizzes {
+    max-width: 600px;
+}
+
+.quizzes p, .quizzes button {
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+@media screen and (min-width:768px) {
+    .scoreInfo {
+        display: inline-block;
+    }
+
+    .bodyGrid {
+        display: grid;
+        grid-template-columns: 1fr 40% 40% 1fr;
+        grid-template-rows: min-content min-content min-content min-content;
+    }
+
+    .bodyGrid section, .bodyGrid nav, .question {
+        width: 100%;
+        padding: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .introGrid {
+        grid-area: 1 / 2 / 2 / 4;
+        justify-self: center;
+        max-width: initial;
+    }
+
+    .bodyGrid .time {
+        grid-area: 2 / 2 / 3 / 3;
+        justify-self: left;
+        align-self: start;
+        width: 98%;
+    }
+
+    .bodyGrid .remaining {
+        grid-area: 2 / 3 / 3 / 4;
+        display: initial;
+        justify-self: right;
+        align-self: start;
+        width: 98%;
+    }
+
+    body nav {
+        display: grid;
+        grid-template-rows: min-content 1fr 1fr min-content;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-area: 3 / 2 / 4 / 4;
+        justify-self: center;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 0px;
+    }
+
+    nav h1 {
+        grid-area: 1 / 2 / 2 / 3;
+    }
+
+    nav hr {
+        grid-area: 1 / 1 / 2 / 4;
+        margin: 0px;
+        margin-top: auto;
+    }
+
+    nav .questionHolder {
+        grid-area: 2 / 1 / 4 / 2;
+    }
+
+    nav button {
+        margin: 5px 0px;
+        width: 90%;
+        justify-self: center;
+    }
+
+    nav #previous {
+        grid-area: 2 / 2 / 3 / 3;
+    }
+
+    nav #next {
+        grid-area: 2 / 3 / 3 / 4;
+    }
+
+    nav #stop {
+        grid-area: 3 / 2 / 4 / 3;
+    }
+
+    nav #cancel {
+        grid-area: 3 / 3 / 4 / 4;
+    }
+
+    .bodyGrid .question {
+        grid-area: 4 / 2 / 5 / 4;
+        justify-self: center;
+        padding-bottom: 5px;
+    }
+
+    .endingWarning {
+        grid-area: 4 / 1 / 5 / 4;
+    }
+}
+
+@media screen and (min-width:1200px) {
+    .bodyGrid {
+        grid-template-columns: 1fr 40% 5% 25% 1fr;
+        grid-template-rows: 1fr min-content min-content min-content 1fr;
+    }
+
+    .introGrid {
+        grid-area: 2 / 2 / 4 / 3;
+        height: initial;
+        align-self: stretch;
+        margin-top: 10px;
+        width: 100%;
+        max-width: initial;
+    }
+    
+    .bodyGrid .time {
+        grid-area: 2 / 4 / 3 / 5;
+    }
+    
+    .bodyGrid .remaining {
+        grid-area: 3 / 4 / 4 / 5;
+    }
+
+    .bodyGrid .remaining, .bodyGrid .time {
+        margin: 10px 0px;
+        align-self: center;
+        justify-self: center;
+        width: 100%;
+    }
+
+    body nav {
+        grid-area: 4 / 4 / 5 / 5;
+        grid-template-columns: 50% 50%;
+        grid-template-rows: min-content min-content min-content min-content min-content min-content;
+    }
+
+    nav h1, nav hr {
+        grid-area: 1 / 1 / 2 / 3;
+    }
+
+    nav button {
+        margin-left: 10px;
+        margin-right: 10px;
+        justify-self: stretch;
+        width: initial;
+    }
+
+    nav .questionHolder {
+        grid-area: 2 / 1 / 3 / 3;
+    }
+
+    nav #previous {
+        grid-area: 3 / 1 / 4 / 2;
+    }
+
+    nav #next {
+        grid-area: 3 / 2 / 4 / 3;
+    }
+
+    nav #stop {
+        grid-area: 5 / 1 / 6 / 3;
+    }
+
+    nav #cancel {
+        grid-area: 6 / 1 / 7 / 3;
+    }
+
+    .bodyGrid .question {
+        grid-area: 4 / 2 / 5 / 3;
+    }
+
+    .endingWarning {
+        grid-area: 4 / 1 / 5 / 3;
+        display: block;
+    }
+}
+
+@media screen and (min-width:1800px) {
+    .bodyGrid {
+        grid-template-columns: 1fr 720px 90px 450px 1fr;
+        grid-template-rows: 1fr min-content min-content min-content 1fr;
+    }
+}
