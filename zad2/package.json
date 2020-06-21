@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc -p tsconfig.json --lib es2016,dom --target es2016 --allowSyntheticDefaultImports; node -r esm app.js",
-    "clean": "rm *.js public/javascripts/*.js routes/*.js src/*.js",
+    "test": "rm data.db; npm run createdb; npx mocha -r ts-node/register tests.ts",
+    "start": "tsc -p tsconfig.json --module ES6 --lib es2016,dom --target es2016 --allowSyntheticDefaultImports; node -r esm app.js",
+    "clean": "rm *.js public/javascripts/*.js",
     "createdb": "tsc src/db.ts --lib es2015,dom --target es2016 --allowSyntheticDefaultImports; node -r esm src/db.js",
     "ttt": "tsc ttt.ts --lib es2015,dom --target es2016 --allowSyntheticDefaultImports; node -r esm ttt.js"
   },
@@ -14,6 +14,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/babylon": "^6.16.5",
     "@types/connect": "^3.4.33",
     "@types/cookie-parser": "^1.4.2",
     "@types/csurf": "^1.9.36",
@@ -30,5 +31,16 @@
     "express-session": "^1.17.1",
     "pug": "^3.0.0",
     "sqlite3": "^4.2.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "@types/selenium-webdriver": "^3.0.17",
+    "chai": "^4.2.0",
+    "mocha": "^8.0.1",
+    "mocha-webdriver": "^0.2.7",
+    "selenium-webdriver": "^3.6.0",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5"
   }
 }

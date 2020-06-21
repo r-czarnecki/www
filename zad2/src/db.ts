@@ -3,7 +3,7 @@ import { initialUsers } from './initialUsers.js';
 import * as crypto from 'crypto';
 import { quizzes } from './quizzes.js';
 
-export const database = new sqlite.Database('data.db');
+export const database = new sqlite.Database('data.db', sqlite.OPEN_READWRITE);
 
 function createIfNeeded(table: string, fun: () => Promise<void>): Promise<void> {
     return new Promise((resolve, reject) => {

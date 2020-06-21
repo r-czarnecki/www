@@ -56,7 +56,8 @@ loginRouter.get('/changePassword', (req, res) => {
 loginRouter.post('/changePassword', (req, res) => {
     if (req.body.newPassword === "") {
         res.render('change', {
-            error: "Hasło nie może być puste."
+            error: "Hasło nie może być puste.",
+            csrfToken: req.csrfToken()
         });
         return;
     }
