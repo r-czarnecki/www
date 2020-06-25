@@ -44,7 +44,6 @@ export class Meme {
             const add: (db: sqlite.Database) => Promise<void> = (db) => {
                 return new Promise(async (resolve, reject) => {
                     const nextID = await get_max_id(db) + 1;
-                    await new Promise(res => setTimeout(res, 5000));
                     db.exec(`UPDATE memes SET price = ${this.price} WHERE id = ${this.id};`, (err) => {
                         if (err) {
                             reject(err);
