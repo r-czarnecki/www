@@ -15,7 +15,7 @@ const app = express();
 const SQLiteStore = connectSqlite(session);
 
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser('fsdwoemcmdfl'));
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true }));
 app.use(session({
@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     const hash = crypto.createHash("sha256").update(req.body.password).digest("hex");
-    db.get(`SELECT * FROM users WHERE username='${req.body.username}' AND password='${hash}'`, (err, row) => {
+    db.get('SELECT * FROM users WHERE username=? AND password=?;', [req.body.username, hash], (err, row) => {
         if (!err && row != undefined)
             req.session.username = req.body.username;
         res.redirect('/');

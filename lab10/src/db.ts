@@ -80,7 +80,7 @@ function transaction(): Promise<void> | void {
             const [db, fun] = transactionQueue.shift();
             while (!done) {
                 await new Promise((resolve2, reject) => {
-                    db.exec(`BEGIN TRANSACTION`, async (err) => {
+                    db.exec(`BEGIN EXCLUSIVE TRANSACTION`, async (err) => {
                         if (err) {
                             if (err.message.match("^([^ ]+):")[1] === "SQLITE_ERROR") {
                                 await new Promise(res => setTimeout(res, 10));
