@@ -4,7 +4,7 @@ import csurf from 'csurf';
 import { MemeHolder } from './src/memeHolder.js';
 import { Meme } from './src/meme.js';
 import * as sqlite from 'sqlite3';
-import { init_db } from './src/db.js';
+import { init_db, make_transaction } from './src/db.js';
 import session from 'express-session';
 import * as crypto from 'crypto';
 import connect from 'connect';
@@ -31,7 +31,7 @@ app.use(session({
 app.set('view engine', 'pug');
 
 const db = new sqlite.Database('data.db');
-const memes = new MemeHolder(db);
+const memes = new MemeHolder();
 
 const csrfProtection = csurf({ cookie: true });
 
@@ -47,10 +47,20 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
     const hash = crypto.createHash("sha256").update(req.body.password).digest("hex");
-    db.get('SELECT * FROM users WHERE username=? AND password=?;', [req.body.username, hash], (err, row) => {
-        if (!err && row != undefined)
-            req.session.username = req.body.username;
-        res.redirect('/');
+    make_transaction((database) => {
+        return new Promise((resolve, reject) => {
+            database.get('SELECT * FROM users WHERE username=? AND password=?;', [req.body.username, hash], (err, row) => {
+                if (err) {
+                    reject();
+                    return;
+                }
+
+                if (!err && row != undefined)
+                    req.session.username = req.body.username;
+                res.redirect('/');
+                resolve();
+            });
+        });
     });
 });
 

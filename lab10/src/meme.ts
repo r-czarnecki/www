@@ -7,7 +7,6 @@ export class Meme {
     private price: number;
     private url: string;
     private priceHistory: [number, string][];
-    private db: sqlite.Database;
 
     public get_price(): number {
         return this.price;
@@ -29,46 +28,42 @@ export class Meme {
         return this.name;
     }
 
-    public set_db(db: sqlite.Database) {
-        this.db = db;
-    }
-
     public constructor(id: number, name: string, price: number, url: string, who: string) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.url = url;
         this.priceHistory = [[price, who]];
-        this.db = null;
     }
 
     public change_price(newPrice: number, saveInDB: boolean, who: string): Promise<void> | void {
         this.price = newPrice;
         this.priceHistory.push([newPrice, who]);
 
-        if (saveInDB && this.db != null) {
-            const add: () => Promise<void> = () => {
+        if (saveInDB) {
+            const add: (db: sqlite.Database) => Promise<void> = (db) => {
                 return new Promise(async (resolve, reject) => {
-                    const nextID = await get_max_id(this.db) + 1;
-                    this.db.exec(`UPDATE memes SET price = ${this.price} WHERE id = ${this.id};`, (err) => {
+                    const nextID = await get_max_id(db) + 1;
+                    await new Promise(res => setTimeout(res, 5000));
+                    db.exec(`UPDATE memes SET price = ${this.price} WHERE id = ${this.id};`, (err) => {
                         if (err) {
                             reject(err);
                             return;
                         }
 
-                        this.db.exec(`INSERT OR REPLACE INTO prices (id, memeID, price, who) VALUES (${nextID}, ${this.id}, ${newPrice}, '${who}');`, () => resolve());
+                        db.exec(`INSERT OR REPLACE INTO prices (id, memeID, price, who) VALUES (${nextID}, ${this.id}, ${newPrice}, '${who}');`, () => resolve());
                     });
                 });
             };
 
-            return make_transaction(this.db, add);
+            return make_transaction(add);
         }
     }
 
-    public fill_price_history(): Promise<void> {
+    public fill_price_history(db: sqlite.Database): Promise<void> {
         return new Promise((resolve, reject) => {
             this.priceHistory = [];
-            this.db.all(`SELECT id, memeID, price, who FROM prices WHERE memeID = ${this.id} ORDER BY id ASC;`, (err, pricesRows) => {
+            db.all(`SELECT id, memeID, price, who FROM prices WHERE memeID = ${this.id} ORDER BY id ASC;`, (err, pricesRows) => {
                 if (err) {
                     reject(err);
                     return;

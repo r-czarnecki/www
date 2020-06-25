@@ -3,25 +3,18 @@ import * as sqlite from 'sqlite3';
 import { make_transaction, get_max_id } from './db.js';
 
 export class MemeHolder {
-    private db: sqlite.Database;
-
-    public constructor(db: sqlite.Database) {
-        this.db = db;
-    }
-
     public add_meme(newMeme: Meme): Promise<void> {
-        const add: () => Promise<void> = () => {
+        const add: (db: sqlite.Database) => Promise<void> = (db) => {
             return new Promise(async (resolve, reject) => {
-                const nextID = await get_max_id(this.db) + 1;
-                newMeme.set_db(this.db);
+                const nextID = await get_max_id(db) + 1;
 
-                this.db.exec(`INSERT OR REPLACE INTO memes (id, name, url, price, priceHistory) VALUES (${newMeme.get_id()}, '${newMeme.get_name()}', '${newMeme.get_url()}', ${newMeme.get_price()}, ${nextID});`, (err) => {
+                db.exec(`INSERT OR REPLACE INTO memes (id, name, url, price, priceHistory) VALUES (${newMeme.get_id()}, '${newMeme.get_name()}', '${newMeme.get_url()}', ${newMeme.get_price()}, ${nextID});`, (err) => {
                     if (err) {
                         reject(err);
                         return;
                     }
 
-                    this.db.exec(`INSERT OR REPLACE INTO prices (id, memeID, price, who) VALUES (${nextID}, ${newMeme.get_id()}, ${newMeme.get_price()}, 'admin');`, (err) => {
+                    db.exec(`INSERT OR REPLACE INTO prices (id, memeID, price, who) VALUES (${nextID}, ${newMeme.get_id()}, ${newMeme.get_price()}, 'admin');`, (err) => {
                         if (err) {
                             reject(err);
                             return;
@@ -33,50 +26,54 @@ export class MemeHolder {
             });
         };
 
-        return make_transaction(this.db, add);
+        return make_transaction(add);
     }
 
     public get_most_expensive(): Promise<Meme[]> {
-        return new Promise((resolve, reject) => {
-            this.db.all(`SELECT id, name, url, price, priceHistory FROM memes ORDER BY price DESC LIMIT 3;`, (err, rows) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
+        return new Promise(async (res) => {
+            const memes: Meme[] = [];
+            await make_transaction((db) => {
+                return new Promise((resolve, reject) => {
+                    db.all(`SELECT id, name, url, price, priceHistory FROM memes ORDER BY price DESC LIMIT 3;`, (err, rows) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
 
-                const memes: Meme[] = [];
-                this.db.serialize(() => {
-                    for (const row of rows) {
-                        const meme = new Meme(row.id, row.name, row.price, row.url, row.who);
-                        meme.set_db(this.db);
+                        db.serialize(() => {
+                            for (const row of rows) {
+                                const meme = new Meme(row.id, row.name, row.price, row.url, row.who);
 
-                        meme.fill_price_history();
-                        memes.push(meme);
-                    }
+                                meme.fill_price_history(db);
+                                memes.push(meme);
+                            }
+                        });
+                        resolve();
+                    });
                 });
-
-                resolve(memes);
             });
+            res(memes);
         });
     }
 
     public get_meme(id: number): Promise<Meme> {
-        return new Promise((resolve, reject) => {
-            this.db.get(`SELECT * FROM memes WHERE id = ${id};`, async (err, row) => {
-                if (err) {
-                    reject(err);
-                    return;
-                }
+        return new Promise(async (res) => {
+            let meme: Meme = null;
+            await make_transaction((db) => {
+                return new Promise((resolve, reject) => {
+                    db.get(`SELECT * FROM memes WHERE id = ${id};`, async (err, row) => {
+                        if (err) {
+                            reject(err);
+                            return;
+                        }
 
-                const meme = new Meme(row.id, row.name, row.price, row.url, row.who);
-                meme.set_db(this.db);
-                await meme.fill_price_history();
-                resolve(meme);
+                        meme = new Meme(row.id, row.name, row.price, row.url, row.who);
+                        await meme.fill_price_history(db);
+                        resolve();
+                    });
+                });
             });
+            res(meme);
         });
-    }
-
-    public get_db(): sqlite.Database {
-        return this.db;
     }
 }
